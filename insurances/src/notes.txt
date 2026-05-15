@@ -1,0 +1,1069 @@
+claimcard
+   import React from "react"
+import {
+  Card,
+  CardContent,
+  Typography,
+  Button,
+  Stack
+} from "@mui/material";
+
+//import { Link } from "react-router-dom";
+
+import StatusBadge from "./StatusBadge";
+
+const ClaimCard = ({ claim }) => {
+  return (
+    <Card
+    
+  sx={{
+    borderRadius: 4,
+    boxShadow: 3,
+    transition: "0.3s",
+
+    "&:hover": {
+      transform: "translateY(-5px)",
+    },
+  }}
+>
+      <CardContent
+       sx={{ p: 3 }}>
+        <Stack spacing={2}>
+
+          <Typography variant="h6">
+            {claim.patientName}
+          </Typography>
+
+          <Typography>
+            Claim Type: {claim.claimType}
+          </Typography>
+
+          <Typography>
+            Amount: {claim.amount}
+          </Typography>
+
+          <Typography>
+            Hospital: {claim.hospital}
+          </Typography>
+
+          <StatusBadge status={claim.status} />
+
+          <Button
+           fullWidth
+  variant="contained"
+  sx={{
+    mt: 2,
+    borderRadius: 3,
+    py: 1.2,
+    fontWeight: "bold",
+  }}
+>
+  View Details
+      
+          </Button>
+
+        </Stack>
+      </CardContent>
+    </Card>
+  );
+};
+
+export default ClaimCard;
+
+claimstepper
+   import {
+  Stepper,
+  Step,
+  StepLabel
+} from "@mui/material";
+
+const ClaimStepper = ({ steps }) => {
+  return (
+    <Stepper
+      activeStep={steps.length - 1}
+      alternativeLabel
+      sx={{ mt: 4 }}
+    >
+      {steps.map((step, index) => (
+        <Step key={index}>
+          <StepLabel>{step}</StepLabel>
+        </Step>
+      ))}
+    </Stepper>
+  );
+};
+
+export default ClaimStepper;
+
+navbar
+     import { AppBar, Toolbar, Typography } from "@mui/material";
+
+import LocalHospitalIcon from "@mui/icons-material/LocalHospital";
+
+const Navbar = () => {
+  return (
+    <AppBar position="static">
+      <Toolbar>
+
+        <LocalHospitalIcon sx={{ mr: 2 }} />
+
+        <Typography variant="h6">
+          Stackly Healthcare Insurance Tracker
+        </Typography>
+
+      </Toolbar>
+    </AppBar>
+  );
+};
+
+export default Navbar;
+
+statusbadge
+      import { Chip } from "@mui/material";
+
+const StatusBadge = ({ status }) => {
+  let color = "warning";
+
+  if (status === "Approved") {
+    color = "success";
+  }
+
+  if (status === "Rejected") {
+    color = "error";
+  }
+
+  return (
+    <Chip
+      label={status}
+      color={color}
+      sx={{ fontWeight: "bold" }}
+    />
+  );
+};
+
+export default StatusBadge;
+
+claims.json
+
+[
+  {
+    "id": 1,
+    "patientName": "John Doe",
+    "claimType": "Medical Surgery",
+    "amount": "₹50,000",
+    "status": "Approved",
+    "hospital": "Apollo Hospital",
+    "doctor": "Dr. Rajesh Kumar",
+    "date": "2026-05-01",
+    "steps": [
+      "Claim Submitted",
+      "Documents Verified",
+      "Medical Review",
+      "Approved"
+    ]
+  },
+  {
+    "id": 2,
+    "patientName": "Priya Sharma",
+    "claimType": "Telemedicine Consultation",
+    "amount": "₹10,000",
+    "status": "Rejected",
+    "hospital": "Fortis Healthcare",
+    "doctor": "Dr. Meena Singh",
+    "date": "2026-05-04",
+    "steps": [
+      "Claim Submitted",
+      "Documents Verified",
+      "Rejected"
+    ]
+  },
+  {
+    "id": 3,
+    "patientName": "Arun Kumar",
+    "claimType": "Dental Treatment",
+    "amount": "₹15,000",
+    "status": "Pending",
+    "hospital": "Global Dental Clinic",
+    "doctor": "Dr. Ravi Kumar",
+    "date": "2026-05-08",
+    "steps": [
+      "Claim Submitted",
+      "Under Verification"
+    ]
+  }
+]
+
+claimdetails
+import {
+  Box,
+  Card,
+  CardContent,
+  Container,
+  Typography,
+  Chip,
+} from "@mui/material";
+
+import Navbar from "../components/Navbar";
+
+const ClaimDetails = () => {
+  return (
+    <Box sx={{ background: "#f4f6f8", minHeight: "100vh" }}>
+
+      <Navbar />
+
+      <Container maxWidth="lg" sx={{ py: 5 }}>
+
+        <Card sx={{ borderRadius: 4, boxShadow: 3 }}>
+          <CardContent sx={{ p: 4 }}>
+
+            <Typography variant="h4" fontWeight="bold" mb={3}>
+              John Doe
+            </Typography>
+
+            <Typography mb={2}>
+              Claim Type: Medical Surgery
+            </Typography>
+
+            <Typography mb={2}>
+              Amount: ₹50,000
+            </Typography>
+
+            <Typography mb={2}>
+              Hospital: Apollo Hospital
+            </Typography>
+
+            <Typography mb={2}>
+              Doctor: Dr. Rajesh Kumar
+            </Typography>
+
+            <Typography mb={2}>
+              Date: 2026-05-01
+            </Typography>
+
+            <Chip
+              label="Approved"
+              color="success"
+            />
+
+          </CardContent>
+        </Card>
+
+      </Container>
+
+    </Box>
+  );
+};
+
+export default ClaimDetails;
+
+dashboard
+
+import {
+  Box,
+  Container,
+  Grid,
+  Typography,
+} from "@mui/material";
+
+import Navbar from "../components/Navbar";
+import ClaimCard from "../components/ClaimCard";
+
+import claims from "../data/claims.json";
+
+const Dashboard = () => {
+  return (
+    <Box
+      sx={{
+        background: "#f4f6f8",
+        minHeight: "100vh",
+      }}
+    >
+
+      <Navbar />
+
+      <Container sx={{ py: 5 }}>
+
+        <Typography
+          variant="h4"
+          fontWeight="bold"
+          mb={4}
+        >
+          Insurance Claim Dashboard
+        </Typography>
+
+        <Grid container spacing={4}>
+
+          {claims.map((claim) => (
+
+            <Grid
+              item
+              xs={12}
+              sm={6}
+              md={4}
+              key={claim.id}
+            >
+              <ClaimCard claim={claim} />
+            </Grid>
+
+          ))}
+
+        </Grid>
+
+      </Container>
+
+    </Box>
+  );
+};
+
+export default Dashboard;
+
+AppRoutes.jsx
+
+import React from "react";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+
+import Dashboard from "../pages/Dashboard";
+import ClaimDetails from "../pages/ClaimDetails";
+
+function AppRoutes() {
+  return (
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Dashboard />} />
+        <Route path="/claim/:id" element={<ClaimDetails />} />
+      </Routes>
+    </BrowserRouter>
+  );
+}
+
+export default AppRoutes;
+
+theme
+
+import { createTheme } from "@mui/material/styles";
+
+const theme = createTheme({
+  palette: {
+    primary: {
+      main: "#0d47a1",
+    },
+    background: {
+      default: "#f4f6f8",
+    },
+  },
+
+  typography: {
+    fontFamily: "Poppins, sans-serif",
+  },
+
+  shape: {
+    borderRadius: 12,
+  },
+});
+
+export default theme;
+
+app.js
+
+import React from "react";
+import AppRoutes from "./routes/AppRoutes";
+
+function App() {
+  return <AppRoutes />;
+}
+
+export default App;
+
+index.js
+
+import React from "react";
+import ReactDOM from "react-dom/client";
+import App from "./App";
+
+import { ThemeProvider } from "@mui/material/styles";
+import { CssBaseline } from "@mui/material";
+
+import theme from "./styles/theme";
+
+const root = ReactDOM.createRoot(document.getElementById("root"));
+
+root.render(
+  <ThemeProvider theme={theme}>
+    <CssBaseline />
+    <App />
+  </ThemeProvider>
+);
+
+
+
+IMPORTANT:
+
+import React from "react";
+
+import {
+  Stepper,
+  Step,
+  StepLabel,
+  Paper,
+  Typography,
+  Box,
+  Alert,
+} from "@mui/material";
+
+const ClaimStepper = ({
+  status,
+  currentStep,
+  rejectionReason,
+}) => {
+  const steps = [
+    "Claim Submitted",
+    "Documents Verified",
+    "Under Review",
+    status === "Rejected"
+      ? "Rejected"
+      : "Approved",
+    "Payment Processed",
+  ];
+
+  return (
+    <Paper
+      sx={{
+        p: 4,
+        borderRadius: 4,
+        boxShadow: 3,
+      }}
+    >
+      <Typography
+        variant="h5"
+        fontWeight="bold"
+        mb={4}
+      >
+        Claim Progress Timeline
+      </Typography>
+
+      <Box sx={{ overflowX: "auto" }}>
+        <Stepper
+          activeStep={currentStep - 1}
+          alternativeLabel
+        >
+          {steps.map((label, index) => (
+            <Step key={index}>
+              <StepLabel>{label}</StepLabel>
+            </Step>
+          ))}
+        </Stepper>
+      </Box>
+
+      {/* Approved UI */}
+      {status === "Approved" && (
+        <Alert
+          severity="success"
+          sx={{ mt: 4 }}
+        >
+          Claim Approved Successfully
+        </Alert>
+      )}
+
+      {/* Pending UI */}
+      {status === "Pending" && (
+        <Alert
+          severity="warning"
+          sx={{ mt: 4 }}
+        >
+          Claim Under Review
+        </Alert>
+      )}
+
+      {/* Rejected UI */}
+      {status === "Rejected" && (
+        <Alert
+          severity="error"
+          sx={{ mt: 4 }}
+        >
+          Rejection Reason: {rejectionReason}
+        </Alert>
+      )}
+    </Paper>
+  );
+};
+
+export default ClaimStepper;
+
+
+
+
+
+ {/* Sidebar */}
+          <Grid item xs={12} md={2}>
+            <Sidebar />
+          </Grid>
+
+          {/* Claim Cards */}
+          <Grid item xs={12} md={8}>
+            <Grid container spacing={3}>
+              {claims.map((claim) => (
+                <Grid
+                  item
+                  xs={12}
+                  sm={6}
+                  lg={4}
+                  key={claim.id}
+                >
+                  <ClaimCard
+                    claim={claim}
+                    onViewDetails={() =>
+                      setSelectedClaim(claim)
+                    }
+                  />
+                </Grid>
+              ))}
+            </Grid>
+          </Grid>
+
+          {/* Right Panel */}
+          <Grid item xs={12} md={2}>
+            <RightPanel />
+          </Grid>
+
+
+
+
+
+
+
+          import React from "react";
+import ReactDOM from "react-dom/client";
+
+import App from "./App";
+
+const root = ReactDOM.createRoot(
+  document.getElementById("root")
+);
+
+root.render(
+  <React.StrictMode>
+    <App />
+  </React.StrictMode>
+);
+
+
+
+// Suppress MUI internal warnings
+const originalError = console.error;
+console.error = (...args) => {
+  if (
+    args[0]?.includes?.("justifyContent") ||
+    args[0]?.includes?.("non-boolean attribute")
+  ) return;
+  originalError(...args);
+};
+
+
+import React, { useState } from "react";
+
+import {
+  Box,
+  Grid,
+  Typography,
+  Paper,
+  Alert,
+} from "@mui/material";
+
+import claims from "../data/claims.json";
+
+import Navbar from "../components/Navbar";
+import ClaimCard from "../components/ClaimCard";
+import ClaimStepper from "../components/ClaimStepper";
+
+import bgImage from "../assets/insurance.png";
+
+const Dashboard = () => {
+  const [selectedClaim, setSelectedClaim] =
+    useState(null);
+
+  return (
+    <Box
+      sx={{
+        minHeight: "100vh",
+        backgroundImage: `url(${bgImage})`,
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        backgroundRepeat: "no-repeat",
+      }}
+    >
+      {/* Dark Overlay */}
+      <Box
+        sx={{
+          minHeight: "100vh",
+          background:
+            "rgba(0,0,0,0.45)",
+        }}
+      >
+        {/* Navbar */}
+        <Navbar />
+
+        {/* Main Content */}
+        <Box sx={{ p: 4 }}>
+          {/* Title */}
+          <Typography
+            variant="h4"
+            fontWeight="bold"
+            mb={4}
+            color="white"
+          >
+            Insurance Claim Dashboard
+          </Typography>
+
+         {/* Claim Cards */}
+<Grid
+  container
+  spacing={4}
+  justifyContent="center"
+  alignItems="stretch"
+>
+  {claims.map((claim) => (
+    <Grid
+      item
+      xs={12}
+      sm={6}
+      md={4}
+      lg={3}
+      key={claim.id}
+      sx={{
+        display: "flex",
+      }}
+    >
+      <ClaimCard
+        claim={claim}
+        onViewDetails={() =>
+          setSelectedClaim(claim)
+        }
+      />
+    </Grid>
+  ))}
+</Grid>
+
+          {/* Selected Claim Details */}
+          {selectedClaim && (
+            <Box mt={5}>
+              <Grid container spacing={3}>
+                {/* Claim Details */}
+                <Grid item xs={12} md={4}>
+                  <Paper
+                    elevation={5}
+                    sx={{
+                      p: 3,
+                      borderRadius: 4,
+                      background:
+                        "rgba(255,255,255,0.92)",
+                      backdropFilter:
+                        "blur(8px)",
+                    }}
+                  >
+                    <Typography
+                      variant="h5"
+                      fontWeight="bold"
+                      mb={3}
+                    >
+                      {selectedClaim.name}
+                    </Typography>
+
+                    <Typography mb={1}>
+                      <strong>
+                        Claim Type:
+                      </strong>{" "}
+                      {
+                        selectedClaim.claimType
+                      }
+                    </Typography>
+
+                    <Typography mb={1}>
+                      <strong>
+                        Amount:
+                      </strong>{" "}
+                      {selectedClaim.amount}
+                    </Typography>
+
+                    <Typography mb={1}>
+                      <strong>
+                        Hospital:
+                      </strong>{" "}
+                      {selectedClaim.hospital}
+                    </Typography>
+
+                    <Typography mb={1}>
+                      <strong>
+                        Insurance Provider:
+                      </strong>{" "}
+                      {
+                        selectedClaim.insuranceProvider
+                      }
+                    </Typography>
+
+                    <Typography mb={1}>
+                      <strong>
+                        Status:
+                      </strong>{" "}
+                      {selectedClaim.status}
+                    </Typography>
+
+                    <Typography mb={1}>
+                      <strong>Date:</strong>{" "}
+                      {selectedClaim.date}
+                    </Typography>
+
+                    {/* Approved */}
+                    {selectedClaim.status ===
+                      "Approved" && (
+                      <Alert
+                        severity="success"
+                        sx={{ mt: 3 }}
+                      >
+                        Claim Approved
+                        Successfully
+                      </Alert>
+                    )}
+
+                    {/* Pending */}
+                    {selectedClaim.status ===
+                      "Pending" && (
+                      <Alert
+                        severity="warning"
+                        sx={{ mt: 3 }}
+                      >
+                        Claim Under Review
+                      </Alert>
+                    )}
+
+                    {/* Rejected */}
+                    {selectedClaim.status ===
+                      "Rejected" && (
+                      <Alert
+                        severity="error"
+                        sx={{ mt: 3 }}
+                      >
+                        Rejection Reason:{" "}
+                        {
+                          selectedClaim.rejectionReason
+                        }
+                      </Alert>
+                    )}
+                  </Paper>
+                </Grid>
+
+                {/* Timeline */}
+                <Grid item xs={12} md={8}>
+                  <Paper
+                    elevation={5}
+                    sx={{
+                      p: 3,
+                      borderRadius: 4,
+                      background:
+                        "rgba(255,255,255,0.92)",
+                      backdropFilter:
+                        "blur(8px)",
+                    }}
+                  >
+                    <Typography
+                      variant="h5"
+                      fontWeight="bold"
+                      mb={3}
+                    >
+                      Claim Progress
+                      Timeline
+                    </Typography>
+
+                    <ClaimStepper
+                      status={
+                        selectedClaim.status
+                      }
+                      currentStep={
+                        selectedClaim.currentStep
+                      }
+                    />
+                  </Paper>
+                </Grid>
+              </Grid>
+            </Box>
+          )}
+        </Box>
+      </Box>
+    </Box>
+  );
+};
+
+export default Dashboard;
+
+
+import React from "react";
+
+import {
+  Card,
+  CardContent,
+  Typography,
+  Button,
+  Box,
+  Chip,
+  Divider,
+} from "@mui/material";
+
+import PersonIcon from "@mui/icons-material/Person";
+import CurrencyRupeeIcon from "@mui/icons-material/CurrencyRupee";
+import LocalHospitalIcon from "@mui/icons-material/LocalHospital";
+import EventIcon from "@mui/icons-material/Event";
+import MedicalServicesIcon from "@mui/icons-material/MedicalServices";
+import BusinessIcon from "@mui/icons-material/Business";
+
+const ClaimCard = ({
+  claim,
+  onViewDetails,
+}) => {
+  const getColor = () => {
+    if (claim.status === "Approved")
+      return "success";
+
+    if (claim.status === "Rejected")
+      return "error";
+
+    return "warning";
+  };
+
+  return (
+    <Card
+      sx={{
+        borderRadius: 4,
+        boxShadow: 3,
+        height: "100%",
+        transition: "0.3s",
+
+        "&:hover": {
+          transform: "translateY(-5px)",
+          boxShadow: 6,
+        },
+      }}
+    >
+      <CardContent>
+        {/* Header */}
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent:
+              "space-between",
+            alignItems: "center",
+            mb: 2,
+          }}
+        >
+          <Box
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              gap: 1,
+            }}
+          >
+            <PersonIcon color="primary" />
+
+            <Typography
+              variant="h6"
+              fontWeight="bold"
+            >
+              {claim.name}
+            </Typography>
+          </Box>
+
+          <Chip
+            label={claim.status}
+            color={getColor()}
+          />
+        </Box>
+
+        <Divider sx={{ mb: 2 }} />
+
+        {/* Claim Type */}
+        <Box
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            gap: 1,
+            mb: 1.5,
+          }}
+        >
+          <MedicalServicesIcon fontSize="small" />
+
+          <Typography variant="body2">
+            <strong>Claim Type:</strong>{" "}
+            {claim.claimType}
+          </Typography>
+        </Box>
+
+        {/* Amount */}
+        <Box
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            gap: 1,
+            mb: 1.5,
+          }}
+        >
+          <CurrencyRupeeIcon fontSize="small" />
+
+          <Typography variant="body2">
+            <strong>Amount:</strong>{" "}
+            {claim.amount}
+          </Typography>
+        </Box>
+
+        {/* Hospital */}
+        <Box
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            gap: 1,
+            mb: 1.5,
+          }}
+        >
+          <LocalHospitalIcon fontSize="small" />
+
+          <Typography variant="body2">
+            <strong>Hospital:</strong>{" "}
+            {claim.hospital}
+          </Typography>
+        </Box>
+
+        {/* Insurance Provider */}
+        <Box
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            gap: 1,
+            mb: 1.5,
+          }}
+        >
+          <BusinessIcon fontSize="small" />
+
+          <Typography variant="body2">
+            <strong>
+              Insurance Provider:
+            </strong>{" "}
+            {claim.insuranceProvider}
+          </Typography>
+        </Box>
+
+        {/* Date */}
+        <Box
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            gap: 1,
+            mb: 3,
+          }}
+        >
+          <EventIcon fontSize="small" />
+
+          <Typography variant="body2">
+            <strong>Date:</strong>{" "}
+            {claim.date}
+          </Typography>
+        </Box>
+
+        {/* Rejection Reason */}
+        {claim.status ===
+          "Rejected" && (
+          <Box
+            sx={{
+              backgroundColor:
+                "#ffebee",
+              p: 1.5,
+              borderRadius: 2,
+              mb: 2,
+            }}
+          >
+            <Typography
+              variant="body2"
+              color="error"
+              fontWeight="bold"
+            >
+              Rejection Reason:
+            </Typography>
+
+            <Typography
+              variant="body2"
+              color="error"
+            >
+              {claim.rejectionReason}
+            </Typography>
+          </Box>
+        )}
+
+        {/* Button */}
+        <Button
+          variant="contained"
+          fullWidth
+          onClick={onViewDetails}
+          sx={{
+            borderRadius: 2,
+            textTransform: "none",
+            fontWeight: "bold",
+            py: 1,
+          }}
+        >
+          View Details
+        </Button>
+      </CardContent>
+    </Card>
+  );
+};
+
+export default ClaimCard;
+
+import React from "react";
+import Dashboard from "./pages/Dashboard";
+
+function App() {
+ return <Dashboard />;
+}
+
+export default App;
+
+
+
+[
+  {
+    "id": 1,
+    "name": "John Doe",
+    "claimType": "Medical Surgery",
+    "amount": "₹50,000",
+    "hospital": "Apollo Hospital",
+    "insuranceProvider": "Star Health Insurance",
+    "status": "Approved",
+    "currentStep": 5,
+    "date": "2026-05-01",
+    "rejectionReason": ""
+  },
+
+  {
+    "id": 2,
+    "name": "Priya Sharma",
+    "claimType": "Telemedicine Consultation",
+    "amount": "₹10,000",
+    "hospital": "Fortis Healthcare",
+    "insuranceProvider": "HDFC Ergo",
+    "status": "Rejected",
+    "currentStep": 4,
+    "date": "2026-05-04",
+    "rejectionReason": "Required medical documents missing"
+  },
+
+  {
+    "id": 3,
+    "name": "Arun Kumar",
+    "claimType": "Dental Treatment",
+    "amount": "₹15,000",
+    "hospital": "Global Dental Clinic",
+    "insuranceProvider": "ICICI Lombard",
+    "status": "Pending",
+    "currentStep": 3,
+    "date": "2026-05-08",
+    "rejectionReason": ""
+  }
+]
+
