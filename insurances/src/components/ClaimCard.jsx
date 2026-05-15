@@ -28,14 +28,7 @@ const ClaimCard = ({ claim }) => {
   };
 
   const InfoRow = ({ icon, label, value }) => (
-    <Box
-      sx={{
-        display: "flex",
-        alignItems: "center",
-        gap: 1,
-        mb: 1.2,
-      }}
-    >
+    <Box sx={{ display: "flex", alignItems: "center", gap: 1, mb: 1.2 }}>
       {icon}
       <Typography variant="body2">
         <strong>{label}:</strong> {value}
@@ -113,25 +106,6 @@ const ClaimCard = ({ claim }) => {
           label="Date"
           value={claim.date}
         />
-
-        {/* REJECTION */}
-        {claim.status === "Rejected" && (
-          <Box
-            sx={{
-              backgroundColor: "#ffebee",
-              p: 1,
-              borderRadius: 2,
-              mt: 1,
-            }}
-          >
-            <Typography variant="body2" color="error" fontWeight="bold">
-              Rejection:
-            </Typography>
-            <Typography variant="body2" color="error">
-              {claim.rejectionReason}
-            </Typography>
-          </Box>
-        )}
       </CardContent>
 
       {/* BUTTON */}

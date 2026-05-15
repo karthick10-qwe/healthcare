@@ -7,22 +7,14 @@ import {
   Paper,
   Typography,
   Box,
-  Alert,
 } from "@mui/material";
 
-const ClaimStepper = ({
-  status,
-  currentStep,
-  rejectionReason,
-}) => {
-
+const ClaimStepper = ({ status, currentStep }) => {
   const steps = [
     "Claim Submitted",
     "Documents Verified",
     "Under Review",
-    status === "Rejected"
-      ? "Rejected"
-      : "Approved",
+    status === "Rejected" ? "Rejected" : "Approved",
     "Payment Processed",
   ];
 
@@ -34,32 +26,21 @@ const ClaimStepper = ({
         boxShadow: 3,
       }}
     >
-      <Typography
-        variant="h5"
-        fontWeight="bold"
-        mb={4}
-      >
+      <Typography variant="h5" fontWeight="bold" mb={4}>
         Claim Progress Timeline
       </Typography>
 
       <Box sx={{ overflowX: "auto" }}>
-        <Stepper
-          activeStep={currentStep - 1}
-          alternativeLabel
-        >
+        <Stepper activeStep={currentStep - 1} alternativeLabel>
           {steps.map((label, index) => {
-
             const isRejected =
-              status === "Rejected" &&
-              label === "Rejected";
+              status === "Rejected" && label === "Rejected";
 
             const isApproved =
-              status === "Approved" &&
-              label === "Approved";
+              status === "Approved" && label === "Approved";
 
             const isUnderReview =
-              status === "Pending" &&
-              label === "Under Review";
+              status === "Pending" && label === "Under Review";
 
             return (
               <Step key={index}>
@@ -67,7 +48,6 @@ const ClaimStepper = ({
                   sx={{
                     "& .MuiStepLabel-label": {
                       fontWeight: "bold",
-
                       color: isRejected
                         ? "#d32f2f"
                         : isApproved
@@ -111,34 +91,22 @@ const ClaimStepper = ({
         </Stepper>
       </Box>
 
-      {/* Approved */}
+      {/* ONLY STATUS ALERTS (NO REJECTION REASON HERE) */}
+
       {status === "Approved" && (
-        <Alert
-          severity="success"
-          sx={{ mt: 4 }}
-        >
-          Claim Approved Successfully
-        </Alert>
+        <Box mt={4}>
+          <Typography color="success.main" fontWeight="bold">
+            Claim Approved Successfully
+          </Typography>
+        </Box>
       )}
 
-      {/* Pending */}
       {status === "Pending" && (
-        <Alert
-          severity="warning"
-          sx={{ mt: 4 }}
-        >
-          Claim Under Review
-        </Alert>
-      )}
-
-      {/* Rejected */}
-      {status === "Rejected" && (
-        <Alert
-          severity="error"
-          sx={{ mt: 4 }}
-        >
-          Rejection Reason: {rejectionReason}
-        </Alert>
+        <Box mt={4}>
+          <Typography color="warning.main" fontWeight="bold">
+            Claim Under Review
+          </Typography>
+        </Box>
       )}
     </Paper>
   );
